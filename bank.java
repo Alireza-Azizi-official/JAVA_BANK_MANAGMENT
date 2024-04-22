@@ -10,45 +10,56 @@ public class bank {
         obj.menu();
     }
 }
-
 class bankaccount{
     double balance;
     double prevTrans;
     String customerName;
     String CustomerId;
-    
+
     bankaccount(String customerName, String customerId){
         this.customerName = customerName;
         this.CustomerId = customerId;
     }
 
-    void deposit(double amount){
+    double deposit(double amount){
         if( amount != 0){
             balance += amount;
             prevTrans += amount;
+            return amount;
+        }
+        else{
+            return 0;
         }
     }
-    void withdraw(double amt){
+
+    double withdraw(double amt){
         if(amt != 0 && balance >= amt){
             balance -= amt;
             prevTrans =- amt;
+            return amt;
         }
         else if(balance < amt){
             System.out.println("Insufficient Balance");
-        }
-    }
-    void getPreviousrTrans(){
-        if(prevTrans > 0){
-            System.out.println( "Deposited : " + prevTrans);
-        }
-        else if(prevTrans < 0){
-            System.out.println("Withdrawn : " + Math.abs(prevTrans));
+            return 0;
         }
         else{
+            return 0;
+        }
+    }
+
+    void getPreviousrTrans() {
+        if(prevTrans > 0) {
+            System.out.println( "Deposited : " + prevTrans);
+        }
+        else if(prevTrans < 0) {
+            System.out.println("Withdrawn : " + Math.abs(prevTrans));
+        }
+        else {
             System.out.println(" No Transaction.");
         }
     }
-    void menu(){
+
+    void menu() {
         char option;
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome " + customerName);
@@ -61,11 +72,12 @@ class bankaccount{
         System.out.println("d) Previous Transaction");
         System.out.println("e) Exit");
 
-        do{
+        do {
             System.out.println("_________________     _________________");
             System.out.println("Choose a number:");
             option = sc.next().charAt(0);
 
+            double amount = 0;
             switch (option) {
                 case 'a':
                     System.out.println(".............................");
@@ -75,26 +87,25 @@ class bankaccount{
                 case 'b':
                     System.out.println(".............................");
                     System.out.println("Enter amount :");
-                    double amount = sc.nextDouble();
-                    deposit(amount);
+                    amount = sc.nextDouble();
+                    amount = deposit(amount);
+                    System.out.println(Math.abs(amount) + " added to your balance");
                     System.out.println("The opearation accomplished successfuly");
-                    System.out.println("\n");
                     break;
 
                 case 'c':
                     System.out.println(".............................");
                     System.out.println("Enter amount: ");
-                    double amountw = sc.nextDouble();
-                    withdraw(amountw);
+                    amount = sc.nextDouble();
+                    amount = withdraw(amount);
+                    System.out.println(Math.abs(amount) + " withdrawn from your account");
                     System.out.println("The opearation accomplished successfuly");
-                    System.out.println("\n");
                     break;
 
                 case 'd':
                     System.out.println(".............................");
                     System.out.println("Previous Transation:");
                     getPreviousrTrans();
-                    System.out.println("\n");
                     break;
 
                 case 'e':
@@ -105,7 +116,7 @@ class bankaccount{
                     System.out.println("Choose an option: ");
                     break;
             }
-        }while(option != 'e');
+        } while (option != 'e');
         System.out.println("Thank you for using our services.");
     }
 }
